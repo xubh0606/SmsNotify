@@ -12,7 +12,7 @@ namespace SmsNotify.Database
 {
     public static class DatabaseHelper
     {
-        private static string s_connectionString = "Server=tcp:sms-notify-sql-server.database.windows.net,1433;Initial Catalog=SmsNotifyDatabase;Persist Security Info=False;User ID=SmsManager;Password=hgfdsaqwe123A;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static string s_connectionString = "Server=tcp:sms-notify-sql-server.database.windows.net,1433;Initial Catalog=SmsNotifyDatabase;Persist Security Info=False;User ID=SmsManager;Password=***;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         public static async Task<List<ScheduledJob>> GetNotifyJobsToRunNow()
         {
