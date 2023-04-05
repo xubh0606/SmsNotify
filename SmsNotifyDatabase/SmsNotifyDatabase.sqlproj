@@ -60,10 +60,12 @@
     <Folder Include="Tables" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="StoredProcedures\GetNotifyJobsToRunNow.sql" />
+    <Build Include="StoredProcedures\GetScheduledJobsToRunNow.sql" />
     <Build Include="Tables\NotifyJobs.sql" />
     <Build Include="Tables\ScheduledJobs.sql" />
     <Build Include="Tables\Users.sql" />
     <Build Include="StoredProcedures\UpdateScheduledJobNextJobDueTime.sql" />
+    <Build Include="StoredProcedures\CreateNotifyJob.sql" />
+    <Build Include="StoredProcedures\GetNotifyJobsToRunNow.sql" />
   </ItemGroup>
 </Project>

@@ -14,16 +14,29 @@ namespace SmsNotify.Database
     {
         private static string s_connectionString = "Server=tcp:sms-notify-sql-server.database.windows.net,1433;Initial Catalog=SmsNotifyDatabase;Persist Security Info=False;User ID=SmsManager;Password=***;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
-        public static async Task<List<ScheduledJob>> GetNotifyJobsToRunNow()
+        public static async Task<List<ScheduledJob>> GetScheduledJobsToRunNow()
+        {
+            using (var connection = new SqlConnection(s_connectionString))
+            {
+                string sprocName = StoredProcedureNames.sproc_GetScheduledJobsToRunNow;
+                DynamicParameters parameters = new DynamicParameters();
+
+                var scheduledJobs = await connection.QueryAsync<ScheduledJob>(sprocName, parameters, commandType: CommandType.StoredProcedure);
+
+                return scheduledJobs.ToList();
+            }
+        }
+
+        public static async Task<List<NotifyJob>> GetNotifyJobsToRunNow()
         {
             using (var connection = new SqlConnection(s_connectionString))
             {
                 string sprocName = StoredProcedureNames.sproc_GetNotifyJobsToRunNow;
                 DynamicParameters parameters = new DynamicParameters();
 
-                var scheduledJobs = await connection.QueryAsync<ScheduledJob>(sprocName, parameters, commandType: CommandType.StoredProcedure);
+                var notifyJobs = await connection.QueryAsync<NotifyJob>(sprocName, parameters, commandType: CommandType.StoredProcedure);
 
-                return scheduledJobs.ToList();
+                return notifyJobs.ToList();
             }
         }
 
@@ -35,6 +48,34 @@ namespace SmsNotify.Database
                 DynamicParameters parameters = new DynamicParameters();
                 parameters.Add("@ScheduledJobId", scheduledJobId, DbType.Int64, ParameterDirection.Input);
                 parameters.Add("@NextJobDueTime", nextJobDueTime, DbType.DateTime2, ParameterDirection.Input);
+
+                var rowsAffected = await connection.ExecuteAsync(sprocName, parameters, commandType: CommandType.StoredProcedure);
+
+                return;
+            }
+        }
+
+        public static async Task<NotifyJob> CreateNotifyJob(long scheduledJobId)
+        {
+            using (var connection = new SqlConnection(s_connectionString))
+            {
+                string sprocName = StoredProcedureNames.sproc_CreateNotifyJob;
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@ScheduledJobId", scheduledJobId, DbType.Int64, ParameterDirection.Input);
+
+                var newNotifyJob = await connection.QuerySingleAsync<NotifyJob>(sprocName, parameters, commandType: CommandType.StoredProcedure);
+                return newNotifyJob;
+            }
+        }
+
+        public static async Task UpdateNotifyJobStatus(long notifyJobId, NotifyJobStatus notifyJobStatus)
+        {
+            using (var connection = new SqlConnection(s_connectionString))
+            {
+                string sprocName = StoredProcedureNames.sproc_UpdateNotifyJobStatus;
+                DynamicParameters parameters = new DynamicParameters();
+                parameters.Add("@NotifyJobId", notifyJobId, DbType.Int64, ParameterDirection.Input);
+                parameters.Add("@NotifyJobStatus", notifyJobStatus, DbType.Int32, ParameterDirection.Input);
 
                 var rowsAffected = await connection.ExecuteAsync(sprocName, parameters, commandType: CommandType.StoredProcedure);
 

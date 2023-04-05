@@ -8,9 +8,11 @@ namespace SmsNotify.Database
 {
     internal class StoredProcedureNames
     {
-        public static string sproc_GetNotifyJobsToRunNow = "GetNotifyJobsToRunNow_V0";
+        public static string sproc_GetScheduledJobsToRunNow = "GetScheduledJobsToRunNow_V0";
         public static string sproc_UpdateScheduledJobNextJobDueTime = "UpdateScheduledJobNextJobDueTime_V0";
-        public static string sproc_InsertNotifyJob = "InsertNotifyJob_V0";
+        public static string sproc_CreateNotifyJob = "CreateNotifyJob_V0";
+        public static string sproc_GetNotifyJobsToRunNow = "GetNotifyJobsToRunNow_V0";
+        public static string sproc_UpdateNotifyJobStatus = "UpdateNotifyJobStatus_V0";
 
         // for future
         public static string sproc_CreateScheduledJob = "CreateScheduledJob_V0";

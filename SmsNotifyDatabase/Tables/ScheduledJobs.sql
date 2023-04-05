@@ -1,7 +1,10 @@
 ﻿CREATE TABLE [dbo].[ScheduledJobs]
 (
-	[Id] BIGINT IDENTITY(1,1)  PRIMARY KEY, 
+	[Id] BIGINT IDENTITY(1,1)  PRIMARY KEY,
+    [UserId] BIGINT NOT NULL,
     [JobType] INT NOT NULL,  -- 1-OneTimeJob / 2-DailyJob / 3-WeeklyJob / 4-MonthlyJob / 5-YearlyJob
+    [JobName] NVARCHAR(50) NOT NULL,
+    [JobDescription] NVARCHAR(50) NULL,
     [TimeArray] NVARCHAR(500) NULL, 
     [DaysOfWeek] INT NULL,   -- 1-Sunday / 2-Monday / 4-Tuesday / 8-Wednesday / 16-Thursday / 32-Friday / 64-Saturday / 127-AllDays
     [WeeksOfMonth] INT NULL, -- 1-week1 / 2-week2 / 4-week3 / 8-week4 / 16-week5
@@ -11,4 +14,6 @@
     [Enable] BIT NOT NULL,   -- 0-disable / 1-enable.
     [TimeZone] NVARCHAR(50) NOT NULL, -- e.g. China , Pacific time
     [NextJobDueTimeUtc] DATETIME2 NOT NULL -- when to trigger next job
+
+    CONSTRAINT [FK_ScheduledJobs_To_UserId] FOREIGN KEY ([UserId]) REFERENCES [Users]([Id]),
 )

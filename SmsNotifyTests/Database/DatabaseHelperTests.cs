@@ -12,6 +12,14 @@ namespace SmsNotify.Database.Tests
     public class DatabaseHelperTests
     {
         [TestMethod()]
+        public async Task GetScheduledJobsToRunNowTest()
+        {
+            var result = await DatabaseHelper.GetScheduledJobsToRunNow();
+            Assert.IsNotNull(result);
+            Assert.IsTrue(result.Count > 0);
+        }
+
+        [TestMethod()]
         public async Task GetNotifyJobsToRunNowTest()
         {
             var result = await DatabaseHelper.GetNotifyJobsToRunNow();

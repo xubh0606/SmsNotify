@@ -18,6 +18,8 @@ namespace SmsNotify.Database.DatabaseObjects
     {
         public long Id { get; set; }
 
+        public long UserId { get; set; }
+
         public ScheduledJobType JobType { get; set; }
 
         public string TimeArray { get; set; }
